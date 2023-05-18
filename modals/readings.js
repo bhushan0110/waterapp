@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const ReadingSchema = new mongoose.Schema({
-    flatNo:{
-        type: String,
+    flatNumber:{
+        type: Number,
         required: true,
     },
     volume:{
@@ -11,7 +11,11 @@ const ReadingSchema = new mongoose.Schema({
     },
     date:{
         type: Date,
-        default: Date.now
+        required: true
+    },
+    time:{
+        type: String,
+        required: true
     }
 });
 
