@@ -24,18 +24,22 @@ const csvWriter = createCsvWriter({
     ],
 });
 
-const data = async () =>{
+const data = async (date) =>{
     try{
+      const limit = [5,6,4,2,4,4];
       let arr=[];
       let i=0;
       while(i<6){
-        let random = Math.floor(Math.random()*15);
-        let date = new Date().toDateString();
+        let a= Math.random()*6*limit[i];
+        console.log(a);
+        let random = Math.floor(a);
+        console.log(random);
+        let d = new Date(date).toDateString();
         let time = new Date().toLocaleTimeString();
         const data = await Reading.create({
           flatNumber: i+1,
           volume: random,
-          date:date,
+          date:d,
           time: time,
         });
   
@@ -50,7 +54,7 @@ const data = async () =>{
       return arr;
     }
     catch(err){
-      console.log(err);
+      console.log(err+ "Bhushan");
     }
 }
 
@@ -63,7 +67,7 @@ router.post('/stop-streaming', async (req,res)=>{
         
       }
       else{
-        res.status(400).send("Errrror",row);
+        res.status(400).send("Errrror");
       }
     }
     catch(err){
@@ -73,7 +77,8 @@ router.post('/stop-streaming', async (req,res)=>{
   
 router.post('/stream-to-bigquery', async (req, res) => {
     try{
-        const success = await data();
+        const date = new Date(req.body.date).toDateString();
+        const success = await data(date);
         if(success){
             res.status(200).send('Data Added');
         }
